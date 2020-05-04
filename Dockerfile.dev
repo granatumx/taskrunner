@@ -1,0 +1,47 @@
+FROM ubuntu:latest
+
+ENV DEBIAN_FRONTEND noninteractive
+ENV TZ America/New_York
+
+RUN apt-get update
+RUN apt-get install -y apt-utils
+RUN apt-get install -y tmux nodejs npm build-essential git vim
+RUN apt-get install -y curl
+RUN curl https://getmic.ro | bash
+RUN mv micro /usr/local/bin
+RUN echo "============================    npm install -g n   ============================"
+RUN npm install -g n
+RUN echo "============================    n stable    ============================"
+RUN n stable
+RUN echo "============================    npm install -g typescript    ============================"
+RUN npm install -g depcheck typescript npm-check-updates
+
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+RUN apt-get update  
+RUN apt-get install -y yarn
+
+# Allow granatumx to kick off docker containers itself
+RUN apt-get install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common
+
+RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - 
+
+RUN add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+RUN apt-get update
+
+RUN apt-get install -y docker-ce-cli
+
+# Need to make structure for granatum
+# RUN mkdir -p /data
+# RUN mkdir -p /var/granatum
+
+# Copy source over so that we can proceed with build inside of docker
+RUN mkdir -p /usr/src/gx
+WORKDIR /usr/src/gx
+
+# Build software inside of docker image
+
+COPY . .
+
+RUN npm install -g pkg
+RUN make
