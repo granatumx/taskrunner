@@ -37,6 +37,12 @@ setImmediate(async () => {
   const knex = await Knex({
     client: 'pg',
     connection: process.env.DATABASE_URL || 'postgres://postgres:12qw@localhost:5433/granatum',
+    pool: {
+	    min: 2, 
+	    max: 100,
+	    acquireTimeoutMillis: 30000,
+	    reapIntervalMillis: 1000,
+    },
   });
 
   if (config.clearRunningTasks) {
