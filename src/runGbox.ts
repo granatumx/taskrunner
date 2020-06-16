@@ -12,6 +12,7 @@ export default (
   writeMessageToErrors?: (obj: object) => Promise<void>,
 ) =>
   new Promise((rsv, rjt) => {
+    console.log("Spawning a process: "+exeCmdArgv[0]);
     const gboxProcess = spawn(exeCmdArgv[0], exeCmdArgv.slice(1), { stdio: 'pipe' });
     gboxProcess.stdout.pipe(createWriteStream(gboxStdoutFileOnHost));
     gboxProcess.stderr.pipe(createWriteStream(gboxStderrFileOnHost));
