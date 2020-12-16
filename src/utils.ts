@@ -4,7 +4,7 @@ import { resolve } from 'path';
 export const timeout = (t: number) =>
   new Promise((rsv) => {
     setTimeout(() => {
-      rsv();
+      rsv(0);
     }, t);
   });
 

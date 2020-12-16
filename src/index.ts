@@ -36,7 +36,7 @@ setImmediate(async () => {
 
   const knex = await Knex({
     client: 'pg',
-    connection: process.env.DATABASE_URL || 'postgres://postgres:12qw@192.168.1.101:5432/granatum',
+    connection: process.env.DATABASE_URL || 'postgres://postgres:12qw@192.168.4.101:5432/granatum',
     pool: {
 	    min: 2, 
 	    max: 100,

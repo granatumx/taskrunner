@@ -53,7 +53,7 @@ export default (
       clearInterval(killInterceptedId);
       clearTimeout(killTimeoutId);
       if (code === 0) {
-        rsv();
+        rsv(777);
       } else {
         rjt(new Error(`The gbox process exited with the code ${code}, caused by signal ${JSON.stringify(signal)}`));
       }
